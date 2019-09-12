@@ -4,10 +4,8 @@ const app = express()
 const path = require('path')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const keys = require('./keys')
-
-const imagesRoutes = require('./routes/images.routes')
+const api = require('./api')
+const connectDB = require('./database')
 
 
 
@@ -25,11 +23,9 @@ app.use((req, res, next) => {
   next();
 });
 
-mongoose.connect(keys.MONGO_URI, {useNewUrlParser: true})
-  .then(() => console.log('MongoDB connected...'))
-  .catch(err => console.error(err))
+api(app)
 
-app.use('/api/images', imagesRoutes)
+connectDB()
 
 const server = app.listen(process.env.PORT || 3000, function() {
   console.log('Server is satated on port: ' + server.address().port)

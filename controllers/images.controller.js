@@ -1,4 +1,4 @@
-const Image = require('../models/images.model')
+const Image = require('../database/models/images.model')
 
 module.exports.getAllImages = async(req, res) => {
   try{
