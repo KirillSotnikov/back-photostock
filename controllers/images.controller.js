@@ -6,11 +6,11 @@ module.exports.getAllImages = async(req, res) => {
     const images = await Image.find().sort({date: -1})
     res.json({
       status: 'success',
-      data: { images },
+      data: images ,
       total: images.length
     })
   } catch(err) {
-    throw new NotFoundError
+    throw new NotFoundError()
   }
 }
 
@@ -21,9 +21,12 @@ module.exports.addImage = async (req, res) => {
       imageUrl: `/${req.file.filename}`
     })
     await image.save()
-    res.status(201).json(image)
+    res.json({
+      status: 'success',
+      data: image
+    })
   } catch(err) {
-    throw new UnauthorizedError
+    throw new UnauthorizedError()
   }
 }
 
@@ -35,6 +38,6 @@ module.exports.removeImage = async(req, res) => {
       message: 'Image was deleted'
     })
   } catch(err) {
-    throw new WrongParametersError
+    throw new WrongParametersError()
   }
 }
