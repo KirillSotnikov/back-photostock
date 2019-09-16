@@ -7,12 +7,12 @@ const bodyParser = require('body-parser')
 const api = require('./api')
 const connectDB = require('./database')
 const corsOptions = require('./middleware/cors')
-const cors = require('cors')
+// const cors = require('cors')
 
 
 
 app.use(morgan('dev'))
-app.use(cors())
+// app.use(cors())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}))
