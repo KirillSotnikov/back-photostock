@@ -1,11 +1,16 @@
 const Image = require('../database/models/images.model')
+const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
 
 module.exports.getAllImages = async(req, res) => {
   try{
     const images = await Image.find().sort({date: -1})
-    res.json(images)
+    res.json({
+      status: 'success',
+      data: images ,
+      total: images.length
+    })
   } catch(err) {
-    res.status(500).json(err)
+    throw new NotFoundError()
   }
 }
 
@@ -16,17 +21,23 @@ module.exports.addImage = async (req, res) => {
       imageUrl: `/${req.file.filename}`
     })
     await image.save()
-    res.status(201).json(image)
+    res.json({
+      status: 'success',
+      data: image
+    })
   } catch(err) {
-    console.log(err)
+    throw new UnauthorizedError()
   }
 }
 
 module.exports.removeImage = async(req, res) => {
   try{
     await Image.deleteOne({_id: req.body.id})
-    res.json({message: 'Image was deleted'})
+    res.json({
+      status: 'success',
+      message: 'Image was deleted'
+    })
   } catch(err) {
-    res.status(500).json(err)
+    throw new WrongParametersError()
   }
 }
