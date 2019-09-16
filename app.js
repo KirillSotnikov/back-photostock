@@ -6,7 +6,8 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const api = require('./api')
 const connectDB = require('./database')
-const cors = require('./middleware/cors')
+const corsOptions = require('./middleware/cors')
+const cors = require('cors')
 
 
 
@@ -16,11 +17,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}))
 
 app.use(express.static(path.join(__dirname)))
+app.use(cors())
 
 
 api(app)
 
-cors(app)
+corsOptions(app)
 
 connectDB()
 
