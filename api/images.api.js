@@ -43,4 +43,5 @@ router.post('/', upload.single('image'), cloudStorage.upload, ctr.addImage)
 
 router.delete('/', ctr.removeImage)
 
+
 module.exports = router
