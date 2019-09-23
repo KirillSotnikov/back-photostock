@@ -18,7 +18,7 @@ module.exports.addImage = async (req, res) => {
   try{
     const image = new Image({
       title: req.body.title,
-      imageUrl: `/${req.file.filename}`
+      imageUrl: req.body.filePath
     })
     await image.save()
     res.json({
