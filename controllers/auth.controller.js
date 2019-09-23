@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 
 const { User, validate } = require('../database/models/user.model')
-const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
+const {NotFoundError, WrongData} = require('../lib/errors')
 
 module.exports.createUser = async (req, res) => {
   const {error} = validate(req.body);
@@ -13,11 +13,11 @@ module.exports.createUser = async (req, res) => {
 
   user = new User({
     name: req.body.name,
-    password: req.body.password,
+    password: await bcrypt.hash(req.body.password, 10),
     email: req.body.email
   })
 
-  user.password = await bcrypt.hash(user.password, 10)
+  // user.password = await 
 
   await user.save()
   res.json({
@@ -40,7 +40,7 @@ module.exports.login = async (req, res) => {
         data: { token }
       })
     } else {
-      throw new WrongParametersError()
+      throw new WrongData()
     }
   } else {
     throw new NotFoundError()

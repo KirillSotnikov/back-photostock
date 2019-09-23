@@ -43,6 +43,10 @@ module.exports = function (err, req, res, next) {
       result.code = 400;
       break
     }
+    case 'WrongData' : {
+      result.data.message = tmpError.message || 'Wrong data.'
+      result.code = 400
+    }
   }
 
   res.status(result.code).json(result)
