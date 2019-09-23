@@ -4,7 +4,6 @@ const keys = require('../keys')
 const {UnauthorizedError, WrongParametersError} = require('../lib/errors')
 
 module.exports = (req, res, next) => {
-  console.log(req.headers)
   const token = req.headers["x-access-token"] || req.headers["authorization"]
 
   if(!token) {
@@ -16,6 +15,7 @@ module.exports = (req, res, next) => {
     req.user = decoded
     next()
   } catch(err) {
-    throw new WrongParametersError()
+    // throw new WrongParametersError()
+    res.json({message: 'Wrong password or email'})
   }
 }

@@ -15,7 +15,6 @@ module.exports.getAllImages = async(req, res) => {
 }
 
 module.exports.addImage = async (req, res) => {
-  console.log(req.body)
   try{
     const image = new Image({
       title: req.body.title,

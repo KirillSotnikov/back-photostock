@@ -26,6 +26,12 @@ corsOptions(app)
 
 connectDB()
 
+// FBadmin()
+
+// app.route('/', FBadmin)
+
+
+
 const server = app.listen(process.env.PORT || 3000, function() {
   console.log('Server is satated on port: ' + server.address().port)
 })

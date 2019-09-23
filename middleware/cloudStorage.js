@@ -19,7 +19,6 @@ exports.upload = async (req, res, next) => {
     },
     error => {
       res.status(500);
-      console.log(error);
       res.json({error: error});
     }
   );

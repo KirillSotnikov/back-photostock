@@ -1,6 +1,6 @@
 const imagesRoutes = require('./images.api')
 const storageRoutes = require('./storage.api')
-const userRoutes = require('./users.api')
+const usersRoutes = require('./users.api')
 const authRoutes = require('./auth.api')
 
 
@@ -9,7 +9,7 @@ module.exports = function (server) {
 
   server.use('/storage', storageRoutes)
 
-  server.use('/api/user', userRoutes)
+  server.use('/api/users', usersRoutes)
 
   server.use('/api/auth', authRoutes)
 }

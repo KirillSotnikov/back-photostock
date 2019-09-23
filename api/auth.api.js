@@ -5,7 +5,7 @@ const router = Router()
 
 
 //- /api/auth/
-router.post('/registrate', ctr.createUser)
+router.post('/registration', ctr.createUser)
 
 router.post('/login', ctr.login)
 

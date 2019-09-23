@@ -5,7 +5,10 @@ const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib
 module.exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("-password");
-    res.send(user)
+    res.json({
+      status: 'success',
+      data: {user}
+    })
   } catch {
     throw new NotFoundError()
   }
