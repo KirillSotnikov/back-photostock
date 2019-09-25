@@ -13,7 +13,6 @@ module.exports = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, keys.myprivatekey)
     req.user = decoded
-    console.log(decoded)
     next()
   } catch(err) {
     // throw new WrongParametersError()

@@ -6,7 +6,7 @@ const router = Router()
 
 const keys = require('../keys')
 
-//- /api/user/
+//- /api/users/
 
 router.get('/:id', accessMiddleware, ctr.getUserById)
 

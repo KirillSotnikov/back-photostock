@@ -1,9 +1,20 @@
 const Image = require('../database/models/images.model')
 const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
 
+
 module.exports.getAllImages = async(req, res) => {
   try{
-    const images = await Image.find().sort({created_at: -1})
+
+    let filterData = {
+      
+    }
+
+    if (undefined !== req.query.user_id) filterData.user_id = req.query.user_id
+    if (undefined !== req.query.category_id) filterData.category_id = req.query.category_id
+
+    const images = await Image
+      .find(filterData)
+      .sort({created_at: -1})
     res.json({
       status: 'success',
       data: images ,

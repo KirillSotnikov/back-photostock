@@ -34,7 +34,7 @@ const imageSchema = new Schema({
   ],
   category_id: {
     type: Schema.Types.ObjectId,
-    // required: true
+    required: true
   },
   created_at: {
     type: Date,
