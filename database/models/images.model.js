@@ -4,13 +4,16 @@ const imageSchema = new Schema({
   title: {
     type: String
   },
-  date: {
-    type: Date,
-    default: Date.now
-  },
   imageUrl: {
     type:String,
     required: true
+  },
+  description: {
+    type: String
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
   }
 })
 

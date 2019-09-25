@@ -3,7 +3,7 @@ const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib
 
 module.exports.getAllImages = async(req, res) => {
   try{
-    const images = await Image.find().sort({date: -1})
+    const images = await Image.find().sort({created_at: -1})
     res.json({
       status: 'success',
       data: images ,
@@ -18,7 +18,9 @@ module.exports.addImage = async (req, res) => {
   try{
     const image = new Image({
       title: req.body.title,
-      imageUrl: req.body.filePath
+      description: req.body.description,
+      imageUrl: req.body.filePath,
+      creared_at: new Date().toLocaleString()
     })
     await image.save()
     res.json({
@@ -39,5 +41,18 @@ module.exports.removeImage = async(req, res) => {
     })
   } catch(err) {
     throw new WrongParametersError()
+  }
+}
+
+module.exports.getImageById = async (req, res) => {
+  try {
+    const image = await Image
+      .findOne({_id: req.params.id})
+    res.json({
+      status: 'success',
+      data: {image}
+    })
+  } catch (err) {
+    throw new NotFoundError()
   }
 }

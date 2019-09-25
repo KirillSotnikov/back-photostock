@@ -14,5 +14,7 @@ router.post('/', FBadmin, upload.single('image'), cloudStorage.upload, ctr.addIm
 
 router.delete('/', ctr.removeImage)
 
+router.get('/:id', ctr.getImageById)
+
 
 module.exports = router
