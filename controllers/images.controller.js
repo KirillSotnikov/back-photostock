@@ -17,10 +17,14 @@ module.exports.getAllImages = async(req, res) => {
 module.exports.addImage = async (req, res) => {
   try{
     const image = new Image({
-      title: req.body.title,
-      description: req.body.description,
       imageUrl: req.body.filePath,
-      creared_at: new Date().toLocaleString()
+      title: req.body.title,
+      description: req.body.description || '',
+      alt: req.body.alt,
+      user_id: req.user._id,
+      tags: req.body.tags || [],
+      category_id: req.body.category_id,
+      creared_at: new Date().toLocaleString(),
     })
     await image.save()
     res.json({
@@ -28,7 +32,8 @@ module.exports.addImage = async (req, res) => {
       data: image
     })
   } catch(err) {
-    throw new UnauthorizedError()
+    // throw new UnauthorizedError()
+    console.log(err)
   }
 }
 
