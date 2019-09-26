@@ -27,7 +27,13 @@ const UserSchema = new Schema({
   isAdmin: {
     type: Boolean,
     default: false
-  }
+  },
+  images: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'images'
+    }
+  ]
 })
 
 UserSchema.methods.generateAuthToken = function() {

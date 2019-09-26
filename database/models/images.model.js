@@ -34,7 +34,7 @@ const imageSchema = new Schema({
   ],
   category_id: {
     type: Schema.Types.ObjectId,
-    required: true
+    ref: 'categories'
   },
   created_at: {
     type: Date,
@@ -42,4 +42,4 @@ const imageSchema = new Schema({
   }
 })
 
-module.exports = model('image', imageSchema)
+module.exports = model('images', imageSchema)

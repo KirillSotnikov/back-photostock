@@ -33,9 +33,17 @@ module.exports.createCategory = async(req, res) => {
 }
 
 module.exports.getCategoryById = async(req, res) => {
-  const category = await Category.findOne({_id: req.params.id})
-  res.json({
-    status: 'success',
-    data: {category}
-  })
+  try{
+    await Category
+      .findOne({_id: req.params.id})
+      .populate('images')
+      .exec((error, category) => {
+        res.json({
+          status: 'success',
+          data: {category}
+        })
+      })
+  } catch(err) {
+    console.log(err)
+  }
 }

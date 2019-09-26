@@ -7,7 +7,13 @@ const categorySchema = new Schema({
   },
   label: {
     type: String
-  }
+  },
+  images: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'images'
+    }
+  ]
 })
 
 module.exports = model('category', categorySchema)
