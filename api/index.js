@@ -1,18 +1,18 @@
-const imagesRoutes = require('./images.api')
-const storageRoutes = require('./storage.api')
-const usersRoutes = require('./users.api')
-const authRoutes = require('./auth.api')
-const categoriesRoutes = require('./categories.api')
+const imagesApi = require('./images.api')
+const storageApi = require('./storage.api')
+const usersApi = require('./users.api')
+const authApi = require('./auth.api')
+const categoriesApi = require('./categories.api')
 
 
 module.exports = function (server) {
-  server.use('/api/images', imagesRoutes)
+  server.use('/api/images', imagesApi)
 
-  server.use('/storage', storageRoutes)
+  server.use('/storage', storageApi)
 
-  server.use('/api/users', usersRoutes)
+  server.use('/api/users', usersApi)
 
-  server.use('/api/auth', authRoutes)
+  server.use('/api/auth', authApi)
 
-  server.use('/api/categories', categoriesRoutes)
+  server.use('/api/categories', categoriesApi)
 }
