@@ -7,9 +7,7 @@ const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib
 module.exports.getAllImages = async(req, res) => {
   try{
 
-    let filterData = {
-      
-    }
+    let filterData = {}
 
     if (undefined !== req.query.user_id) filterData.user_id = req.query.user_id
     if (undefined !== req.query.category_id) filterData.category_id = req.query.category_id
@@ -41,7 +39,7 @@ module.exports.addImage = async (req, res) => {
       user_id: userID,
       tags: req.body.tags || [],
       category_id: categoryID,
-      creared_at: new Date().toLocaleString(),
+      // creared_at: new Date().toLocaleString(),
     })
     await image.save()
     
@@ -58,8 +56,8 @@ module.exports.addImage = async (req, res) => {
       data: image
     })
   } catch(err) {
-    // throw new UnauthorizedError()
-    console.log(err)
+    throw new WrongParametersError()
+    // console.log(err)
   }
 }
 

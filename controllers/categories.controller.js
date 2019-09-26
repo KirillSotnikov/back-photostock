@@ -10,7 +10,8 @@ module.exports.getAllCategories = async(req, res) => {
       total: categories.length
     })
   } catch(err) {
-    console.log(err)
+    throw new NotFoundError()
+    // console.log(err)
   }
 }
 
@@ -28,7 +29,8 @@ module.exports.createCategory = async(req, res) => {
       data: category
     })
   } catch (err) {
-    console.log(err)
+    throw new WrongParametersError()
+    // console.log(err)
   }
 }
 

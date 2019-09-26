@@ -8,6 +8,7 @@ const keys = require('../keys')
 
 //- /api/users/
 
-router.get('/:id', accessMiddleware, ctr.getUserById)
+router.get('/:id', ctr.getUserById)
+// router.get('/:id', accessMiddleware, ctr.getUserById)
 
 module.exports = router
