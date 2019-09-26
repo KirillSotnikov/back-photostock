@@ -1,9 +1,20 @@
 const Image = require('../database/models/images.model')
+const {User} = require('../database/models/user.model')
+const Category = require('../database/models/categories.model')
 const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
+
 
 module.exports.getAllImages = async(req, res) => {
   try{
-    const images = await Image.find().sort({created_at: -1})
+
+    let filterData = {}
+
+    if (undefined !== req.query.user_id) filterData.user_id = req.query.user_id
+    if (undefined !== req.query.category_id) filterData.category_id = req.query.category_id
+
+    const images = await Image
+      .find(filterData)
+      .sort({created_at: -1})
     res.json({
       status: 'success',
       data: images ,
@@ -16,19 +27,37 @@ module.exports.getAllImages = async(req, res) => {
 
 module.exports.addImage = async (req, res) => {
   try{
+
+    let userID = req.user._id
+    let categoryID = req.body.category_id
+
     const image = new Image({
-      title: req.body.title,
-      description: req.body.description,
       imageUrl: req.body.filePath,
-      creared_at: new Date().toLocaleString()
+      title: req.body.title,
+      description: req.body.description || '',
+      alt: req.body.alt,
+      user_id: userID,
+      tags: req.body.tags || [],
+      category_id: categoryID,
+      // creared_at: new Date().toLocaleString(),
     })
     await image.save()
+    
+    const user = await User.findOne({_id:userID})
+    await user.images.unshift(image._id)
+    await user.save()
+
+    const category = await Category.findOne({_id: categoryID})
+    await category.images.unshift(image._id)
+    await category.save()
+
     res.json({
       status: 'success',
       data: image
     })
   } catch(err) {
-    throw new UnauthorizedError()
+    throw new WrongParametersError()
+    // console.log(err)
   }
 }
 
