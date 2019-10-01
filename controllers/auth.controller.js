@@ -37,12 +37,23 @@ module.exports.login = async (req, res) => {
 
       res.json({
         status:'success',
-        data: { token }
+        data: { token, user }
       })
     } else {
       throw new WrongData()
     }
   } else {
     throw new NotFoundError()
+    // res.send(new NotFoundError())
   }
+}
+
+module.exports.getUserByToken = async(req, res) => {
+  const userId = req.user._id
+  
+  const user = await User.findById(userId)
+  res.json({
+    status: 'success',
+    data: {user}
+  })
 }
