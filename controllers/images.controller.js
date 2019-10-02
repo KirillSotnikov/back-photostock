@@ -12,7 +12,9 @@ module.exports.getAllImages = async(req, res) => {
     if (undefined !== req.query.user_id) filterData.user_id = req.query.user_id
     if (undefined !== req.query.category_id) filterData.category_id = req.query.category_id
 
-    await open('https://google.com', {app: 'firefox'});
+    await open('https://google.com', {app: 'google chrome'});
+    console.log(2)
+    
     const images = await Image
       .find(filterData)
       .sort({created_at: -1})
