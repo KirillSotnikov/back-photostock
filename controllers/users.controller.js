@@ -10,7 +10,7 @@ module.exports.getAllUsers = async (req, res) => {
       data: {users}
     })
   } catch (err) {
-    throw new NotFoundError
+    throw new NotFoundError()
   }
 }
 

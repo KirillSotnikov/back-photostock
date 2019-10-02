@@ -27,7 +27,6 @@ module.exports.getAllImages = async(req, res) => {
 
 module.exports.addImage = async (req, res) => {
   try{
-    console.log(req.user)
     let userID = req.user._id
     let categoryID = req.body.category_id
 
