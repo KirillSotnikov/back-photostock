@@ -11,6 +11,9 @@ const UserSchema = new Schema({
     minLength: 3,
     maxLength: 50
   },
+  label: {
+    type: String
+  },
   email: {
     type: String,
     required: true,
@@ -46,6 +49,7 @@ const User = model('User', UserSchema)
 function validateUser(user) {
   const schema = {
     name: Joi.string().min(3).max(50).required(),
+    filePath: Joi.string(),
     email: Joi.string().min(5).max(255).required().email(),
     password: Joi.string().min(3).max(255).required()
   }

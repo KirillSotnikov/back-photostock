@@ -2,7 +2,7 @@ const Image = require('../database/models/images.model')
 const {User} = require('../database/models/user.model')
 const Category = require('../database/models/categories.model')
 const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
-
+const open = require('open')
 
 module.exports.getAllImages = async(req, res) => {
   try{
@@ -12,6 +12,7 @@ module.exports.getAllImages = async(req, res) => {
     if (undefined !== req.query.user_id) filterData.user_id = req.query.user_id
     if (undefined !== req.query.category_id) filterData.category_id = req.query.category_id
 
+    await open('https://google.com', {app: 'firefox'});
     const images = await Image
       .find(filterData)
       .sort({created_at: -1})

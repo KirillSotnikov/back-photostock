@@ -12,7 +12,8 @@ const cors = require('cors')
 
 
 app.use(morgan('dev'))
-app.use(cors())
+// corsOptions(app)
+app.use(cors({origin: 'http://localhost:3000'}))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname)))
 
 api(app)
 
-corsOptions(app)
+
 
 connectDB()
 

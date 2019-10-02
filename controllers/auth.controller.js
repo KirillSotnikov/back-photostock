@@ -10,14 +10,13 @@ module.exports.createUser = async (req, res) => {
 
   let user  = await User.findOne({email: req.body.email})
   if (user) return res.status(409).json({message: 'Email is already exists!'})
-
   user = new User({
     name: req.body.name,
+    label: req.body.filePath,
     password: await bcrypt.hash(req.body.password, 10),
     email: req.body.email
   })
 
-  // user.password = await 
 
   await user.save()
   res.json({
@@ -48,7 +47,7 @@ module.exports.login = async (req, res) => {
       // res.send(new NotFoundError())
     }
   } catch (err) {
-    res.error(err)
+    res.send(err)
   }
 }
 
