@@ -19,7 +19,7 @@ module.exports.createCategory = async(req, res) => {
   try {
     const category = new Category({
       name: req.body.name,
-      label: req.body.label
+      label: req.body.filePath
     })
 
     await category.save()
