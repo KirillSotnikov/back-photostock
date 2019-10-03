@@ -2,7 +2,6 @@ const Image = require('../database/models/images.model')
 const {User} = require('../database/models/user.model')
 const Category = require('../database/models/categories.model')
 const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
-const open = require('open')
 
 module.exports.getAllImages = async(req, res) => {
   try{
@@ -74,12 +73,19 @@ module.exports.removeImage = async(req, res) => {
 
 module.exports.getImageById = async (req, res) => {
   try {
-    const image = await Image
+    await Image
       .findOne({_id: req.params.id})
-    res.json({
-      status: 'success',
-      data: {image}
-    })
+      .populate('comments')
+      .exec((error, image) => {
+        res.json({
+          status: 'success',
+          data: {image}
+        })
+      })
+    // res.json({
+    //   status: 'success',
+    //   data: {image}
+    // })
   } catch (err) {
     throw new NotFoundError()
   }
