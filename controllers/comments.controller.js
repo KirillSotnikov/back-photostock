@@ -32,3 +32,20 @@ module.exports.addComment = async(req, res) => {
     console.log(err)
   }
 }
+
+module.exports.getCommentByImageId = async (req, res) => {
+  try{
+    await Comment
+      .find({image_id: req.params.id})
+      .populate('users')
+      .exec((err, comments) => {
+        res.json({
+          status:'success',
+          data: {comments}
+        })
+      })
+  } catch (err) {
+    console.log(err)
+  }
+  // console.log(comments)
+}

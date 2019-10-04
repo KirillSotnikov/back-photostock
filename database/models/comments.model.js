@@ -6,7 +6,8 @@ const commentsSchema = new Schema({
     required: true
   },
   user_id: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'users'
   },
   image_id: {
     type: Schema.Types.ObjectId

@@ -49,7 +49,7 @@ UserSchema.methods.generateAuthToken = function() {
   return token
 }
 
-const User = model('User', UserSchema)
+const User = model('users', UserSchema)
 
 function validateUser(user) {
   const schema = {
