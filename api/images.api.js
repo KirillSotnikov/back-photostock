@@ -20,5 +20,7 @@ router.get('/:id', ctr.getImageById)
 
 router.get('/:id/comments', commentsController.getCommentByImageId)
 
+router.post('/:id/comments', accessMiddleware,commentsController.addComment)
+
 
 module.exports = router

@@ -37,7 +37,6 @@ module.exports.addImage = async (req, res) => {
       user_id: userID,
       tags: req.body.tags || [],
       category_id: categoryID,
-      // creared_at: new Date().toLocaleString(),
     })
     await image.save()
     
@@ -54,8 +53,8 @@ module.exports.addImage = async (req, res) => {
       data: image
     })
   } catch(err) {
-    throw new WrongParametersError()
-    // console.log(err)
+    // throw new WrongParametersError()
+    console.log(err)
   }
 }
 
@@ -75,7 +74,7 @@ module.exports.getImageById = async (req, res) => {
   try {
     await Image
       .findOne({_id: req.params.id})
-      .populate('comments')
+      // .populate('comments')
       .exec((error, image) => {
         res.json({
           status: 'success',

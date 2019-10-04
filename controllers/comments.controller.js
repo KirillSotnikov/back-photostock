@@ -5,19 +5,19 @@ const Comment = require('../database/models/comments.model')
 module.exports.addComment = async(req, res) => {
   try {
     let userID = req.user._id
-    let imageID = req.body.image_id
+    let imageID = req.params.id
 
     const comment = new Comment({
       text: req.body.text,
-      user_id: userID,
+      user: userID,
       image_id: imageID
     })
 
     await comment.save()
 
-    const user = await User.findById(userID)
-    await user.comments.unshift(comment._id)
-    await user.save()
+    // const user = await User.findById(userID)
+    // await user.comments.unshift(comment._id)
+    // await user.save()
 
     const image = await Image.findById(imageID)
     await image.comments.unshift(comment._id)
@@ -37,7 +37,7 @@ module.exports.getCommentByImageId = async (req, res) => {
   try{
     await Comment
       .find({image_id: req.params.id})
-      .populate('users')
+      .populate('user')
       .exec((err, comments) => {
         res.json({
           status:'success',
