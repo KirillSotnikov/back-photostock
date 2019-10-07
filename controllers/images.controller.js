@@ -21,7 +21,7 @@ module.exports.getAllImages = async(req, res, next) => {
     })
   } catch {
     // throw new NotFoundError()
-    next(new NotFoundError)
+    next(new NotFoundError())
   }
 }
 
