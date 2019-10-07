@@ -1,7 +1,7 @@
 const Category = require('../database/models/categories.model')
 const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
 
-module.exports.getAllCategories = async(req, res) => {
+module.exports.getAllCategories = async(req, res, next) => {
   try{
     const categories = await Category.find()
     res.json({
@@ -10,12 +10,13 @@ module.exports.getAllCategories = async(req, res) => {
       total: categories.length
     })
   } catch(err) {
-    throw new NotFoundError()
+    next(new NotFoundError())
+    // throw new NotFoundError()
     // console.log(err)
   }
 }
 
-module.exports.createCategory = async(req, res) => {
+module.exports.createCategory = async(req, res, next) => {
   try {
     const category = new Category({
       name: req.body.name,
@@ -28,13 +29,14 @@ module.exports.createCategory = async(req, res) => {
       status: 'success',
       data: category
     })
-  } catch (err) {
-    throw new WrongParametersError()
+  } catch {
+    next(new WrongParametersError())
+    // throw new WrongParametersError()
     // console.log(err)
   }
 }
 
-module.exports.getCategoryById = async(req, res) => {
+module.exports.getCategoryById = async(req, res, next) => {
   try{
     await Category
       .findOne({_id: req.params.id})
@@ -46,6 +48,7 @@ module.exports.getCategoryById = async(req, res) => {
         })
       })
   } catch(err) {
-    console.log(err)
+    next(new NotFoundError())
+    // console.log(err)
   }
 }

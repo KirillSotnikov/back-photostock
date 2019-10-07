@@ -1,8 +1,9 @@
 const Image = require('../database/models/images.model')
 const {User} = require('../database/models/user.model')
 const Comment = require('../database/models/comments.model')
+const {WrongData, NotFoundError} = require('../lib/errors')
 
-module.exports.addComment = async(req, res) => {
+module.exports.addComment = async(req, res, next) => {
   try {
     let userID = req.user._id
     let imageID = req.params.id
@@ -29,11 +30,12 @@ module.exports.addComment = async(req, res) => {
     })
 
   } catch (err) {
-    console.log(err)
+    // console.log(err)
+    next(new WrongData())
   }
 }
 
-module.exports.getCommentByImageId = async (req, res) => {
+module.exports.getCommentByImageId = async (req, res, next) => {
   try{
     await Comment
       .find({image_id: req.params.id})
@@ -45,7 +47,8 @@ module.exports.getCommentByImageId = async (req, res) => {
         })
       })
   } catch (err) {
-    console.log(err)
+    // console.log(err)
+    next(new NotFoundError())
   }
   // console.log(comments)
 }

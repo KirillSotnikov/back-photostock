@@ -8,7 +8,7 @@ const api = require('./api')
 const connectDB = require('./database')
 const corsOptions = require('./middleware/cors')
 const cors = require('cors')
-
+const errorsMiddlwere = require('./middleware/errors');
 
 
 app.use(morgan('dev'))
@@ -32,6 +32,7 @@ connectDB()
 // app.route('/', FBadmin)
 
 
+app.use(errorsMiddlwere)
 
 const server = app.listen(process.env.PORT || 3000, function() {
   console.log('Server is satated on port: ' + server.address().port)
