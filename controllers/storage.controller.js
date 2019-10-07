@@ -11,6 +11,7 @@ module.exports.getImageFile = async (req, res, next) => {
   
     res.send(file)
   } catch(err) {
-    throw new NotFoundError()
+    // throw new NotFoundError()
+    next(new NotFoundError())
   }
 }

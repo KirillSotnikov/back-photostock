@@ -2,9 +2,8 @@ const Image = require('../database/models/images.model')
 const {User} = require('../database/models/user.model')
 const Category = require('../database/models/categories.model')
 const {NotFoundError, UnauthorizedError, WrongParametersError} = require('../lib/errors')
-const open = require('open')
 
-module.exports.getAllImages = async(req, res) => {
+module.exports.getAllImages = async(req, res, next) => {
   try{
 
     let filterData = {}
@@ -20,12 +19,13 @@ module.exports.getAllImages = async(req, res) => {
       data: images ,
       total: images.length
     })
-  } catch(err) {
-    throw new NotFoundError()
+  } catch {
+    // throw new NotFoundError()
+    next(new NotFoundError())
   }
 }
 
-module.exports.addImage = async (req, res) => {
+module.exports.addImage = async (req, res, next) => {
   try{
     let userID = req.user._id
     let categoryID = req.body.category_id
@@ -38,7 +38,6 @@ module.exports.addImage = async (req, res) => {
       user_id: userID,
       tags: req.body.tags || [],
       category_id: categoryID,
-      // creared_at: new Date().toLocaleString(),
     })
     await image.save()
     
@@ -55,12 +54,13 @@ module.exports.addImage = async (req, res) => {
       data: image
     })
   } catch(err) {
-    throw new WrongParametersError()
+    // throw new WrongParametersError()
+    next(new WrongParametersError())
     // console.log(err)
   }
 }
 
-module.exports.removeImage = async(req, res) => {
+module.exports.removeImage = async(req, res, next) => {
   try{
     await Image.deleteOne({_id: req.body.id})
     res.json({
@@ -68,19 +68,28 @@ module.exports.removeImage = async(req, res) => {
       message: 'Image was deleted'
     })
   } catch(err) {
-    throw new WrongParametersError()
+    // throw new WrongParametersError()
+    next(new WrongParametersError())
   }
 }
 
-module.exports.getImageById = async (req, res) => {
+module.exports.getImageById = async (req, res, next) => {
   try {
-    const image = await Image
+    await Image
       .findOne({_id: req.params.id})
-    res.json({
-      status: 'success',
-      data: {image}
-    })
-  } catch (err) {
-    throw new NotFoundError()
+      // .populate('comments')
+      .exec((error, image) => {
+        res.json({
+          status: 'success',
+          data: {image}
+        })
+      })
+    // res.json({
+    //   status: 'success',
+    //   data: {image}
+    // })
+  } catch {
+    // throw new NotFoundError()
+    next(new NotFoundError())
   }
 }

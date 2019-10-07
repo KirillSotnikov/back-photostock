@@ -2,7 +2,6 @@ const moment = require('moment')
 
 exports.upload = async (req, res, next) => {
   let file = req.file;
-
   if(!file) {
     res.status(500);
     res.json('file not found');
