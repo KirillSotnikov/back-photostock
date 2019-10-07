@@ -53,8 +53,8 @@ module.exports.addImage = async (req, res) => {
       data: image
     })
   } catch(err) {
-    // throw new WrongParametersError()
-    console.log(err)
+    throw new WrongParametersError()
+    // console.log(err)
   }
 }
 
@@ -85,7 +85,7 @@ module.exports.getImageById = async (req, res) => {
     //   status: 'success',
     //   data: {image}
     // })
-  } catch (err) {
+  } catch () {
     throw new NotFoundError()
   }
 }
