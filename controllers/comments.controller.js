@@ -16,7 +16,7 @@ module.exports.addComment = async(req, res, next) => {
 
     await comment.save()
 
-    // const user = await User.findById(userID)
+    const user = await User.findById(userID)
     // await user.comments.unshift(comment._id)
     // await user.save()
 
@@ -24,6 +24,7 @@ module.exports.addComment = async(req, res, next) => {
     await image.comments.unshift(comment._id)
     await image.save()
 
+    comment.user = user
     res.json({
       status: 'success',
       data: {comment}
@@ -39,6 +40,7 @@ module.exports.getCommentByImageId = async (req, res, next) => {
   try{
     await Comment
       .find({image_id: req.params.id})
+      .sort({_id: -1})
       .populate('user')
       .exec((err, comments) => {
         res.json({
