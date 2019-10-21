@@ -10,11 +10,12 @@ const corsOptions = require('./middleware/cors')
 const cors = require('cors')
 const errorsMiddlwere = require('./middleware/errors');
 
-const {http} = require('./api/socket.api')
+// const {http} = require('./api/socket.api')
 
-// const http = require('http').createServer(app);
+const http = require('http').createServer(app);
 
-// const io = require('socket.io')(http);
+const io = require('socket.io')(http);
+const {socketConnect} = require('./controllers/socket.controller')
 
 
 app.use(morgan('dev'))
@@ -25,6 +26,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
 
 app.use(express.static(path.join(__dirname)))
+
 
 
 api(app)
@@ -48,6 +50,12 @@ connectDB()
 //   })
   
 // });
+
+io.on('connection', function(socket){
+  console.log('user connected')
+
+  socketConnect(socket)
+});
 
 
 app.use(errorsMiddlwere)
