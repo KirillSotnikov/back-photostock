@@ -25,21 +25,21 @@ module.exports.socketConnect = async (socket) => {
         // chat.messages.unshift(message)
         await chat.save()
 
-        const newUser = await User.findById(user_id)
-
-        resultData.push(newUser)
       }
+
+      const newUser = await User.findById(user_id)
 
       let resultChat = await Chat
         .findOne({name})
         .populate('users')
-      
+        .populate('messages.user_id')
 
-      resultData.push(resultChat)
       socket.emit('chatCreated', {
         status: 'success',
-        data: {resultData}
+        data: {resultChat}
       })
+
+      socket.broadcast.emit('newUser', newUser);
 
     } catch (err){
       console.log(err)
@@ -47,7 +47,24 @@ module.exports.socketConnect = async (socket) => {
     }
   })
 
-  socket.on('addMessage', async() => {
-    
+  socket.on('addMessage', async ({name, user_id, message}) => {
+    // console.log(data)
+    try{
+      const chat = await Chat.findOne({name})
+      chat.messages.unshift(message)
+      await chat.save()
+
+      const user = await User.findById(user_id)
+
+      socket.emit('messageAdded', {
+        success: 'true',
+        data: {
+          user,
+          message
+        }
+      })
+    } catch (err) {
+      console.log(err)
+    }
   })
 }
