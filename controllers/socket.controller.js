@@ -15,13 +15,13 @@ module.exports.socketConnect = async (socket) => {
         chat = new Chat({
           name
         })
-        chat.users.unshift(user_id)
+        chat.users.push(user_id)
         // chat.messages.unshift(message)
         await chat.save()
 
       } else {
         
-        chat.users.includes(user_id) ? false : chat.users.unshift(user_id)
+        chat.users.includes(user_id) ? false : chat.users.push(user_id)
         // chat.messages.unshift(message)
         await chat.save()
 
@@ -50,17 +50,29 @@ module.exports.socketConnect = async (socket) => {
   socket.on('addMessage', async ({name, user_id, message}) => {
     // console.log(data)
     try{
+      
       const chat = await Chat.findOne({name})
-      chat.messages.unshift(message)
+      chat.messages.push(message)
       await chat.save()
 
-      const user = await User.findById(user_id)
+      let resultChat = await Chat
+        .findOne({name})
+        .populate('users')
+        .populate('messages.user_id')
 
+
+      socket.broadcast.emit('messageAdded', {
+        success: 'true',
+        data: {
+          // user,
+          resultChat
+        }
+      })
       socket.emit('messageAdded', {
         success: 'true',
         data: {
-          user,
-          message
+          // user,
+          resultChat
         }
       })
     } catch (err) {
